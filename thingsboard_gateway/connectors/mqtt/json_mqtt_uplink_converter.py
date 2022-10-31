@@ -122,7 +122,7 @@ class JsonMqttUplinkConverter(MqttUplinkConverter):
                 expression = config.get(topic_expression_config_name)
                 search_result = search(expression, topic)
                 if search_result is not None:
-                    result = search_result.group(0)
+                    result = search_result.group(1)  # use regex group instead of match
                 else:
                     log.debug(
                         "Regular expression result is None. deviceNameTopicExpression parameter will be interpreted "
