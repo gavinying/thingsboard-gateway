@@ -502,14 +502,14 @@ class MqttConnector(Connector, Thread):
                         if handler.get("deviceNameTopicExpression"):
                             device_name_match = search(handler["deviceNameTopicExpression"], message.topic)
                             if device_name_match is not None:
-                                found_device_name = device_name_match.group(0)
+                                found_device_name = device_name_match.group(1)
                         elif handler.get("deviceNameJsonExpression"):
                             found_device_name = TBUtility.get_value(handler["deviceNameJsonExpression"], content)
 
                         # Get device type (if any), either from topic or from content
                         if handler.get("deviceTypeTopicExpression"):
                             device_type_match = search(handler["deviceTypeTopicExpression"], message.topic)
-                            found_device_type = device_type_match.group(0) if device_type_match is not None else \
+                            found_device_type = device_type_match.group(1) if device_type_match is not None else \
                             handler[
                                 "deviceTypeTopicExpression"]
                         elif handler.get("deviceTypeJsonExpression"):
@@ -542,7 +542,7 @@ class MqttConnector(Connector, Thread):
                         if handler.get("deviceNameTopicExpression"):
                             device_name_match = search(handler["deviceNameTopicExpression"], message.topic)
                             if device_name_match is not None:
-                                found_device_name = device_name_match.group(0)
+                                found_device_name = device_name_match.group(1)
                         elif handler.get("deviceNameJsonExpression"):
                             found_device_name = TBUtility.get_value(handler["deviceNameJsonExpression"], content)
 
@@ -550,7 +550,7 @@ class MqttConnector(Connector, Thread):
                         if handler.get("deviceTypeTopicExpression"):
                             device_type_match = search(handler["deviceTypeTopicExpression"], message.topic)
                             if device_type_match is not None:
-                                found_device_type = device_type_match.group(0)
+                                found_device_type = device_type_match.group(1)
                         elif handler.get("deviceTypeJsonExpression"):
                             found_device_type = TBUtility.get_value(handler["deviceTypeJsonExpression"], content)
 
@@ -585,7 +585,7 @@ class MqttConnector(Connector, Thread):
                             if handler.get("deviceNameTopicExpression"):
                                 device_name_match = search(handler["deviceNameTopicExpression"], message.topic)
                                 if device_name_match is not None:
-                                    found_device_name = device_name_match.group(0)
+                                    found_device_name = device_name_match.group(1)
                             elif handler.get("deviceNameJsonExpression"):
                                 found_device_name = TBUtility.get_value(handler["deviceNameJsonExpression"], content)
 
@@ -593,7 +593,7 @@ class MqttConnector(Connector, Thread):
                             if handler.get("attributeNameTopicExpression"):
                                 attribute_name_match = search(handler["attributeNameTopicExpression"], message.topic)
                                 if attribute_name_match is not None:
-                                    found_attribute_names = attribute_name_match.group(0)
+                                    found_attribute_names = attribute_name_match.group(1)
                             elif handler.get("attributeNameJsonExpression"):
                                 found_attribute_names = list(filter(lambda x: x is not None,
                                                                     TBUtility.get_values(
