@@ -1,6 +1,6 @@
 #!/bin/bash
 APP_NAME="tb-gateway"
-APP_TAG="0.1.0"
+APP_TAG="0.1.1"
 
 echo "$DOCKER_REGISTRY_PASSWORD" | docker login -u "$DOCKER_REGISTRY_USERNAME" --password-stdin "$DOCKER_REGISTRY"
 
