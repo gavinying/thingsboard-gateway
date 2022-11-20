@@ -25,6 +25,7 @@ from string import ascii_lowercase, hexdigits
 from sys import argv, executable, getsizeof
 from threading import RLock, Thread
 from time import sleep, time
+import traceback
 
 import simplejson
 from simplejson import JSONDecodeError, dumps, load, loads
@@ -705,14 +706,15 @@ class TBGatewayService:
                             adopted_data_size = empty_adopted_data_size
 
                             # First, loop through the attributes
-                            for attribute in data['attributes']:
-                                adopted_data['attributes'].update(attribute)
-                                adopted_data_size += self.__get_data_size(attribute)
-                                if adopted_data_size >= max_data_size:
-                                    # We have surpassed the max_data_size, so send what we have and clear attributes
-                                    self.__send_data_pack_to_storage(adopted_data, connector_name)
-                                    adopted_data['attributes'] = {}
-                                    adopted_data_size = empty_adopted_data_size
+                            if data.get('attributes') is not None:
+                                for attribute in data['attributes']:
+                                    adopted_data['attributes'].update(attribute)
+                                    adopted_data_size += self.__get_data_size(attribute)
+                                    if adopted_data_size >= max_data_size:
+                                        # We have surpassed the max_data_size, so send what we have and clear attributes
+                                        self.__send_data_pack_to_storage(adopted_data, connector_name)
+                                        adopted_data['attributes'] = {}
+                                        adopted_data_size = empty_adopted_data_size
 
                             # Now, loop through telemetry. Possibly have some unsent attributes that have been adopted.
                             telemetry = data['telemetry'] if isinstance(data['telemetry'], list) else [data['telemetry']]
@@ -749,7 +751,8 @@ class TBGatewayService:
                 else:
                     sleep(0.2)
             except Exception as e:
-                log.error(e)
+                # log.error(e)
+                traceback.print_exc()
 
     @staticmethod
     def __get_data_size(data: dict):
